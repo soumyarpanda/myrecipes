@@ -52,6 +52,6 @@ class RecipesController < ApplicationController
   #private method for accepting the params
   private
     def recipe_params
-      params.require(:recipe).permit(:name, :summary, :description)
+      params.require(:recipe).permit(:name, :summary, :description, :picture)
     end
 end
