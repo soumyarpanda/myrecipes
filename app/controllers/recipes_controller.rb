@@ -3,8 +3,10 @@ class RecipesController < ApplicationController
   #Build all Actions related to Recipes here
   
   # index action
+  # sort by total likes implemented
   def index
-    @recipes = Recipe.all
+    # @recipes = Recipe.all.sort_by{|likes| likes.thumbs_down_total}.reverse
+    @recipes = Recipe.paginate(page: params[:page], per_page: 6)
   end
   
   # show action
@@ -46,6 +48,20 @@ class RecipesController < ApplicationController
       redirect_to recipe_path(@recipe)
     else
       render :edit
+    end
+  end
+  
+  # Action for LIKE button
+  def like
+    @recipe = Recipe.find(params[:id])
+    like = Like.create(like: params[:like], chef: Chef.first, recipe: @recipe)
+    if like.valid?
+      flash[:success] = "Your selection was successful"
+      #After action we want user to stay in the page he/she in
+      redirect_to :back
+    else
+      flash[:danger] = "You can only Like/Dislike once"
+      redirect_to :back
     end
   end
   

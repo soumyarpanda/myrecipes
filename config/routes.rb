@@ -4,6 +4,16 @@ Rails.application.routes.draw do
   
   get '/home', to: 'pages#home'
 
-  resources :recipes
+  # A route that goes to a particular recipe and then LIKE
+  # SO we shall build a nested route
+  resources :recipes do
+    member do
+      post 'like'
+    end
+  end
+  
+
+  
+  
   
 end
